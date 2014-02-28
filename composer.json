@@ -1,0 +1,28 @@
+{
+	"name": "ianbogda/actesapi",
+	"type": "application",
+	"description": "A simple silex rest api for ACTES",
+	"keywords": [
+		"actes", "silex", "rest", "api"
+	],
+	"homepage": "http://github.com/ianbogda/actesapi",
+	"license": "MIT",
+	"authors": [{
+		"name": "Yann Bogdanovic",
+		"email": "ianbogda@gmail.com"
+	}],
+	"require": {
+		"php": ">=5.3.0"
+	},
+	"require": {
+		"vesparny/silex-simple-rest": "*",
+		"symfony/twig-bridge": "~2.3",
+		"symfony/console": "2.1.*",
+		"zf1/zend-pdf": "~1.12"
+	},
+	"autoload": {
+		"psr-0": {
+			"App": "src/"
+		}
+	}
+}

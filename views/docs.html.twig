@@ -1,0 +1,136 @@
+{% extends 'layout.html.twig' %}
+
+{% block container_content %}
+<div class="container">
+<h1><i class="fa fa-link"></i> Documentation </h1>
+
+<p class="alert-warning">
+Ce que ne fait pas l'API :
+<br>
+l'API ne vérifie pas la conformité des enveloppes et schémas.
+</p>
+
+<p class="alert-success">
+l'API n'autorise que la lecture, en effet elle est destinée à une silple consultation des télétransmissions réalisées via s2low de l'ADULLACT.
+<br>
+Pour chaque collectivité, il est possible de retrouver la classification des actes (code nature, codes matières), les actes (envoi, AR, anomailes...).
+<br>
+De même l'API propose un filtre de recherche élaboré.
+</p>
+
+<h2>Les classification des actes</h2>
+
+<h3>Obtenir les codes matières d'une collectivité</h3>
+
+<pre>GET /api/v1/coll/:siren/matieres</pre>
+
+<p>La réponse est un tableau <code>JSON</code> au format suivant:</p>
+<pre>
+[{
+  "value": "1-1-0-0-0",
+  "libelle": "Commande Publique \/ D\u00e9l\u00e9gation de service public"
+  },
+  ...
+ {
+  "value": "9-4-0-0-0",
+  "libelle": "Autres domaines de competences \/ Voeux et motions "
+}]
+</pre>
+
+<h3>Obtenir les codes natures des actes d'une collectivité</h3>
+
+<pre>GET /api/v1/coll/:siren/naturesactes</pre>
+
+<p>La réponse est un tableau <code>JSON</code> au format suivant:</p>
+<pre>
+[{
+  "value": "1",
+  "Libelle": "Deliberations"
+}, {
+  "value": "2",
+  "Libelle": "Arretes reglementaires"
+}, {
+  "value": "3",
+  "Libelle": "Arretes individuels"
+}, {
+  "value": "4",
+  "Libelle": "Contrats et conventions"
+}, {
+  "value": "5",
+  "Libelle": "Documents budgetaires et financiers"
+}, {
+  "value": "6",
+  "Libelle": "Autres"
+}]
+</pre>
+
+
+<h2>Les actes</h2>
+
+<h3>Obtenir la liste des actes d'une ou plusieurs collectivités</h3>
+
+<pre>GET /api/v1/coll/:siren1[,:siren2]/actes</pre>
+
+<p>La réponse est un tableau <code>JSON</code> au format suivant:</p>
+<pre>
+[{
+  "acteid": "1",
+  "numacte": "Numéro de l'acte",
+  "objet" : "Objet de l'acte",
+  "dateacte" : "Date de décision",
+  "natureacte" : "Nature de l'acte",
+  "statut": "Statut de l'acte au format AAAA-MM-JJ : [AR Préfecture|Anomalie|Demande PC...]",
+  "siren" : "siren de la collectivité"
+},
+...
+ {
+  "acteid": "x",
+  "numacte": "Numéro de l'acte",
+  "objet" : "Objet de l'acte",
+  "dateacte" : "Date de décision",
+  "natureacte" : "Nature de l'acte",
+  "statut": "Statut de l'acte au format AAAA-MM-JJ : [AR Préfecture|Anomalie|Demande PC...]",
+  "siren" : "siren de la collectivité"
+}]
+</pre>
+
+<h3>Obtenir le détail d'acte</h3>
+
+<pre>GET /api/v1/acte/:acteid</pre>
+
+<p>La réponse est un tableau <code>JSON</code> au format suivant:</p>
+<pre>
+[{
+  "acteid": "1",
+  "numacte": "Numéro de l'acte",
+  "dateacte" : "Date de la décision",
+  "identifiant" : "Identifiant unique de l'acte au format DPT-SIREN-DATEACTE-NUMACTE-NATUREACTE",
+  "referentnom" : "Nom du referent",
+  "datear": "date de l'accusé de réception au format AAAA-MM-JJ",
+  "natureactenom" : "Nature de l'acte",
+  "matiereactenom" : "Matière de l'acte",
+  "documentnom" : "Nom du document",
+  "datedepot" : "Date de dépôt de l'acte",
+  "dateenvoi" : "Date d'envoi de l'acte",
+  "daterecpetion" : "Date de réception de l'AR"
+}]
+</pre>
+
+<h3>Obtenir le document contenu dans l'acte</h3>
+
+<h4>Le document original</h4>
+
+<pre>GET /api/v1/acte/:acteid/document</pre>
+
+<p>La réponse est le fichier au téléchargement</p>
+
+<h4>Le document "tamponné"</h4>
+
+<pre>GET /api/v1/acte/:acteid/document/tampon</pre>
+
+<p>La réponse est le fichier au téléchargement</p>
+
+
+
+</div>
+{% endblock %}
