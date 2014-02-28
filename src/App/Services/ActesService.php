@@ -4,12 +4,6 @@ namespace App\Services;
 
 class ActesService extends BaseService
 {
-
-    public function getCount($siren)
-    {
-        return $this->db->fetchAll("SELECT COUNT(*) AS total FROM Acte WHERE siren IN (".$siren.")");
-    }
-
     public function getAll($siren, $page = null, $perpage = null)
     {
         $debut = ($page - 1 ) * $perpage;
