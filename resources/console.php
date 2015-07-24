@@ -985,10 +985,12 @@ echo "
 $commands = array('create:user', 'list:user', 'import');
 if (isset($argv[1]) && in_array($argv[1], $commands))
 {
+    $path = __DIR__ . '/../';
+    $database = $path . $app['db.name'];
     switch($argv[1])
     {
     case 'list:user' :
-        $db = new PDO('sqlite:/var/www/actesapi/app.db');
+        $db = new PDO('sqlite:' . $database);
         $users = $db->query("SELECT nom FROM users")->fetchAll();
         echo "\033[0;33mListe des utilisateurs de l'API\033[0m\n";
         foreach($users as $user)
@@ -998,13 +1000,13 @@ if (isset($argv[1]) && in_array($argv[1], $commands))
     break;
     case 'create:user' :
         $options['user'] = $argv[2];
-        $actes = new Actes('/var/www/actesapi/app.db', $options);
+        $actes = new Actes($db, $options);
     break;
     case 'import' :
         if (!isset($argv[2])) continue;
         $colls = explode(',', $argv[2]);
-        $actes = new Actes('/var/www/actesapi/app.db');
-        $actes->populate( '/var/www/actesapi/storage/data/actes/.gitignore', $colls);
+        $actes = new Actes($database);
+        $actes->populate( $path . 'storage/data/actes/.gitignore', $colls);
     break;
     }
 }
